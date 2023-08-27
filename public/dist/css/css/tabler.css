@@ -10504,3 +10504,17 @@ Antialiasing
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Style for the container div */
+#map-world-merc {
+  width: 100%;
+  height: 600px; /* Adjust the height as needed */
+  max-width: 1200px; /* Set a maximum width if desired */
+  margin: 0 auto; /* Center the map horizontally */
+}
+
+/* Style for the map itself */
+#map-world-merc .jsvectormap {
+  width: 100%;
+  height: 100%;
+}

@@ -45,9 +45,9 @@
       	font-feature-settings: "cv03", "cv04", "cv11";
       }
     </style>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
-  <body >
-    <script src="{{ asset('./dist/js/demo-theme.min.js?1685973381') }}"></script>
+  <body>
     <div class="page">
       <!-- Sidebar -->
       @include('admin.body.sidebar')
@@ -443,6 +443,8 @@
       });
       // @formatter:on
     </script>
+
+
     <script>
       // @formatter:on
       document.addEventListener("DOMContentLoaded", function() {
@@ -471,6 +473,7 @@
       });
       // @formatter:off
     </script>
+
     <script>
       // @formatter:off
       document.addEventListener("DOMContentLoaded", function () {
