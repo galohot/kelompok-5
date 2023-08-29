@@ -43,17 +43,30 @@ class AdminController extends Controller
     }//end method
     public function GeoChart()
     {
-        // Fetch data from the database
+        // Fetch data from the database, including the "Country" column, with "Value" formatted
         $data = DB::table('gdp-data')
             ->where('Year', 2020)
             ->where('Series', 'GDP real rates of growth (percent)')
-            ->select('CountryCode', 'Value')
-            ->pluck('Value', 'CountryCode') // Pluck the data into an associative array
-            ->toArray(); // Convert the result to an array
-        
-        // Pass the data to the view
-        return view('admin.geochart', ['data' => $data]);
+            ->select('CountryCode', 'Country', DB::raw('FORMAT(Value, 0) AS Value')) // Format "Value" with thousands separator
+            ->get(); // Get the data as a collection
+    
+        // Convert the collection to an associative array
+        $data = $data->pluck('Value', 'CountryCode')->toArray();
+    
+        // Define DataTable options
+        $dataTableOptions = [
+            "paging" => true,
+            "lengthChange" => true,
+            "searching" => true,
+            "info" => true,
+            "autoWidth" => false,
+        ];
+    
+        // Pass the data and DataTable options to the view
+        return view('admin.geochart', compact('data', 'dataTableOptions'));
     }
+    
+    
     
     public function CountryProfile(){
 
