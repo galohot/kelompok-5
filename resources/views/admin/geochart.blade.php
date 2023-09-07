@@ -2,9 +2,6 @@
 @section('admin')
 
 <!-- Add DataTables CSS and JS links if they are not included in your project yet -->
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
-
 <div class="container" style="height: 60vh">
     <div id="map-world-merc"></div>
 </div>

@@ -10,11 +10,22 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    public function AdminDashboard(){
+    
+    protected function getGeoChartData()
+    {
+        $data = DB::table('gdp-data')
+            ->where('Year', 2020)
+            ->where('Series', 'GDP real rates of growth (percent)')
+            ->select('CountryCode', 'Country', DB::raw('FORMAT(Value, 0) AS Value')) 
+            ->get();
 
-        return view('admin.index');
-
-    } //end method
+        return $data->pluck('Value', 'CountryCode')->toArray();
+    }
+    public function AdminDashboard()
+    {
+        $data = $this->getGeoChartData();
+        return view('admin.index', compact('data'));
+    }
 
     public function AdminLogout(Request $request)
     {
@@ -43,17 +54,8 @@ class AdminController extends Controller
     }//end method
     public function GeoChart()
     {
-        // Fetch data from the database, including the "Country" column, with "Value" formatted
-        $data = DB::table('gdp-data')
-            ->where('Year', 2020)
-            ->where('Series', 'GDP real rates of growth (percent)')
-            ->select('CountryCode', 'Country', DB::raw('FORMAT(Value, 0) AS Value')) // Format "Value" with thousands separator
-            ->get(); // Get the data as a collection
-    
-        // Convert the collection to an associative array
-        $data = $data->pluck('Value', 'CountryCode')->toArray();
-    
-        // Define DataTable options
+        $data = $this->getGeoChartData();
+        
         $dataTableOptions = [
             "paging" => true,
             "lengthChange" => true,
@@ -61,8 +63,7 @@ class AdminController extends Controller
             "info" => true,
             "autoWidth" => false,
         ];
-    
-        // Pass the data and DataTable options to the view
+
         return view('admin.geochart', compact('data', 'dataTableOptions'));
     }
     

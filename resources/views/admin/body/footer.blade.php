@@ -12,7 +12,7 @@
         <ul class="list-inline list-inline-dots mb-0">
           <li class="list-inline-item">
             Taskapok Kelompok 5, Powered by
-            <a href="." class="link-secondary"><strong>tabler</strong></a>
+            <a href="https://tabler.io/" class="link-secondary"><strong>tabler</strong></a>
             library
           </li>
         </ul>

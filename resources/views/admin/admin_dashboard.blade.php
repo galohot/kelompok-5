@@ -4,7 +4,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Dashboard - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
+    <title>Kemlu International Data</title>
     <script defer data-api="/stats/api/event" data-domain="preview.tabler.io" src="/stats/js/script.js"></script>
     <meta name="msapplication-TileColor" content=""/>
     <meta name="theme-color" content=""/>
@@ -13,7 +13,7 @@
     <meta name="mobile-web-app-capable" content="yes"/>
     <meta name="HandheldFriendly" content="True"/>
     <meta name="MobileOptimized" content="320"/>
-    <link rel="icon" href="./favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="" type="image/x-icon"/>
     <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon"/>
     <meta name="description" content="Tabler comes with tons of well-designed components and features. Start your adventure with Tabler and make your dashboard great again. For free!"/>
     <meta name="canonical" content="https://preview.tabler.io/layout-combo.html">
@@ -46,6 +46,13 @@
       }
     </style>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+	<!-- Add these links to your HTML layout -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+	<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+
   </head>
   <body>
     <div class="page">
@@ -169,6 +176,10 @@
     <script src="{{ asset('./dist/libs/jsvectormap/dist/maps/world-merc.js?1685973381') }}" defer></script>
     <script src="{{ asset('./dist/js/tabler.min.js?1685973381') }}" defer></script>
     <script src="{{ asset('./dist/js/demo.min.js?1685973381') }}" defer></script>
+    <script src="{{ asset('./dist/js/datatables.js?1685973381') }}" defer></script>
+
+
+	
     <script>
       // @formatter:off
       document.addEventListener("DOMContentLoaded", function () {
