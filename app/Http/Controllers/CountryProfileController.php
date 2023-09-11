@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\BelanjaPengadaanMaster;
 use Illuminate\Support\Facades\DB;
 use App\Models\GdpData;
 use App\Models\EducationPublicExpenditure;
@@ -19,6 +19,18 @@ class CountryProfileController extends Controller
         $countries = CountryMaster::all();
         $countryName = CountryMaster::where('CountryCode', $countryCode)->value('Country');
         $perwakilanData = PerwakilanMaster::where('CountryCode', $countryCode)->get(['Office', 'Region']);
+
+        // Safely get the Region
+        $region = ($perwakilanData && $perwakilanData->first()) ? $perwakilanData->first()->Region : null;
+        
+        // Fetch the data from BelanjaPengadaanMaster based on the region, if it exists
+        if ($region) {
+            $belanjaPengadaanData = BelanjaPengadaanMaster::where('CountryCode', $countryCode)
+                                                ->where('Region', $region)
+                                                ->first(['ePurchasing','PengadaanLangsung','TenderKonstruksi','Seleksi']);
+        } else {
+            $belanjaPengadaanData = null;
+        }
         $gdpData = GdpData::where('CountryCode', $countryCode)->get();
         $gdpCurrentPricesData = $gdpData->where('Series', 'GDP in current prices (millions of US dollars)')->all();
         $gdpConstantPricesData = $gdpData->where('Series', 'GDP in constant 2010 prices (millions of US dollars)')->all();
@@ -30,7 +42,7 @@ class CountryProfileController extends Controller
     
         // Removed the number_format
     
-        return view('admin.countryprofile', compact('countryName', 'gdpData', 'crimeData', 'educationData', 'enrollmentData', 'staffData', 'countries', 'countryCode', 'gdpCurrentPricesData', 'gdpConstantPricesData','gdpPerCapitaData', 'perwakilanData'));
+        return view('admin.countryprofile', compact('countryName', 'gdpData', 'crimeData', 'educationData', 'enrollmentData', 'staffData', 'countries', 'countryCode', 'gdpCurrentPricesData', 'gdpConstantPricesData','gdpPerCapitaData', 'perwakilanData', 'belanjaPengadaanData'));
     }
     
     

@@ -49,7 +49,7 @@ class AdminController extends Controller
 
         $id = Auth::user()->id;
         $profileData = User::find($id);
-        return view('admin.body.admin_profile_view',compact('profileData'));
+        return view('admin.admin_profile_view',compact('profileData'));
 
     }//end method
     public function GeoChart()

@@ -17,6 +17,7 @@
       <h1>{{ $countryName ?? 'Country Profile' }}</h1>
     </div>
     <div class="col-12">
+    <h4 class="mb-4 text-center">OUR OFFICE(S)</h4>
       <div class="row row-cards"> @foreach($perwakilanData as $data) <div class="col-sm-6 col-lg-3">
           <div class="card card-sm mb-2">
             <div class="card-body">
@@ -37,7 +38,113 @@
           </div>
         </div> @endforeach </div>
     </div>
+{{-- belanja pengadaan --}}
+    <div class="col-12">
+        <h4 class="mb-4 text-center">PROCUREMENT OF GOODS AND SERVICES<br/>PERMENLU 03 2023</h4>
+        <div class="row row-cards">
+
+            @if($belanjaPengadaanData)
+
+            <!-- E-Purchasing Card -->
+            <div class="col-sm-6 col-lg-3">
+                <div class="card card-sm mb-2">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
+                            </div>
+                            <div class="col">
+                                <div class="font-weight-medium">
+                                    E-Purchasing
+                                </div>
+                                <div class="text-secondary">
+                                    USD {{ number_format($belanjaPengadaanData->ePurchasing, 0, '.', ',') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pengadaan Langsung Card -->
+            <div class="col-sm-6 col-lg-3">
+                <div class="card card-sm mb-2">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
+                            </div>
+                            <div class="col">
+                                <div class="font-weight-medium">
+                                    Pengadaan Langsung
+                                </div>
+                                <div class="text-secondary">
+                                    USD {{ number_format($belanjaPengadaanData->PengadaanLangsung, 0, '.', ',') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tender Konstruksi Card -->
+            <div class="col-sm-6 col-lg-3">
+                <div class="card card-sm mb-2">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
+                            </div>
+                            <div class="col">
+                                <div class="font-weight-medium">
+                                    Tender untuk Konstruksi
+                                </div>
+                                <div class="text-secondary">
+                                    USD {{ number_format($belanjaPengadaanData->TenderKonstruksi, 0, '.', ',') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seleksi Jasa Card -->
+            <div class="col-sm-6 col-lg-3">
+                <div class="card card-sm mb-2">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
+                            </div>
+                            <div class="col">
+                                <div class="font-weight-medium">
+                                    Seleksi untuk Jasa
+                                </div>
+                                <div class="text-secondary">
+                                    USD {{ number_format($belanjaPengadaanData->Seleksi, 0, '.', ',') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @else
+
+            <div class="col-12">
+                <p class="text-center">No data available for this country's procurement.</p>
+            </div>
+
+            @endif
+
+        </div>
+    </div>
+
+{{-- belanja pengadaan --}}
     <div class="row">
+        <div class="col-12 mt-5">
+            <h4 class="mb-4 text-center">INTERNATIONAL DATA<br />UN DATA</h4>
+        </div>
       <div class="col-md-6 col-lg-6 mx-auto">
         <div class="card mb-4">
           <div class="card-body">
