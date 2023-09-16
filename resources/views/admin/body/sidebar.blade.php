@@ -4,7 +4,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <h1 class="navbar-brand">
-        <a href=".">
+        <a href="{{ route('admin.dashboard') }}">
           <img src="{{ asset('./static/KemluLogoLeft.png') }}" width="110" height="32" alt="Tabler" class="navbar-brand-image">
         </a>
       </h1>
@@ -158,6 +158,31 @@
                 GeoChart
               </span>
             </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >
+              <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/package -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M14 8h-2a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2v-4h-1" /></svg>
+              </span>
+              <span class="nav-link-title">
+                Google Datastudio
+              </span>
+            </a>
+            <div class="dropdown-menu">
+              <div class="dropdown-menu-columns">
+                <div class="dropdown-menu-column">
+                  <a class="dropdown-item" href="{{ route('admin.datastudiogdp') }}">
+                    Gross Domestic Product
+                  </a>
+                  <a class="dropdown-item" href="{{ route('admin.datastudioedu') }}">
+                    Education
+                  </a>
+                  <a class="dropdown-item" href="{{ route('admin.datastudiocrime') }}">
+                    Crime
+                  </a>
+                </div>
+              </div>
+            </div>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#navbar-base" data-bs-toggle="dropdown" data-bs-auto-close="false" role="button" aria-expanded="false" >

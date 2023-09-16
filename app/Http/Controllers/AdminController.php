@@ -52,6 +52,32 @@ class AdminController extends Controller
         return view('admin.admin_profile_view',compact('profileData'));
 
     }//end method
+
+    public function AdminProfileStore(Request $request){
+        $id = Auth::user()->id;
+        $data = User::find($id);
+        $data->name = $request->name;
+        $data->username = $request->username;
+        $data->role = $request->role;
+        $data->email = $request->email;
+
+        if ($request->file('photo')) {
+            $file = $request->file('photo');
+            $filename = date('YmdHi').$file->getClientOriginalName();
+            $file->move(public_path('upload/admin_images'),$filename);
+            $data['photo'] = $filename;
+        }
+        $data->save();
+        return redirect()->back();
+    }
+
+    public function UserName(){
+
+        $id = Auth::user()->id;
+        $profileData = User::find($id);
+        return view('admin.body.header',compact('profileData'));
+
+    }//end method
     public function GeoChart()
     {
         $data = $this->getGeoChartData();
@@ -74,6 +100,24 @@ class AdminController extends Controller
         return view('admin.countryprofile');
 
     }//end method
+
+    public function DataStudioGDP(){
+
+        return view('admin.datastudio_gdp');
+
+    }//end method
+
+    public function DataStudioEDU(){
+
+        return view('admin.datastudio_edu');
+
+    }//end method
+    public function DataStudioCRIME(){
+
+        return view('admin.datastudio_crime');
+
+    }//end method
+
 
 
 }

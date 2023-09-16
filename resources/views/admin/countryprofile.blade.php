@@ -3,323 +3,386 @@
 
 
 <div class="container">
-    <div class="col">
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="countryDropdown">Select Country</label>
-        </div>
-        <select class="custom-select form-control-sm col-sm-10" id="countryDropdown"> @foreach ($countries as $country) <option value="{{ $country->CountryCode }}" {{ $countryCode == $country->CountryCode ? 'selected' : '' }}>
-            {{ $country->Country }}
-          </option> @endforeach </select>
+  <div class="col">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <label class="input-group-text" for="countryDropdown">Select Country</label>
       </div>
-    </div> @php $countryLowerCase = \App\Models\CountryMaster::where('CountryCode', $countryCode)->value('CCLower'); @endphp <div class="text-center">
-      <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
-      <h1>{{ $countryName ?? 'Country Profile' }}</h1>
+      <select class="custom-select form-control-sm col-sm-10" id="countryDropdown"> @foreach ($countries as $country) <option value="{{ $country->CountryCode }}" {{ $countryCode == $country->CountryCode ? 'selected' : '' }}>
+          {{ $country->Country }}
+        </option> @endforeach </select>
     </div>
-    <div class="col-12">
+  </div> @php $countryLowerCase = \App\Models\CountryMaster::where('CountryCode', $countryCode)->value('CCLower'); @endphp <div class="text-center">
+    <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
+    <h1>{{ $countryName ?? 'Country Profile' }}</h1>
+    <p>Latest Population Density: {{ ($latestPopulationDensity->Value) }}</p>
+    <p>Latest Surface Area: {{ number_format($latestSurfaceArea->Value) }} thousand km²</p>
+    <p>Latest GDP per capita: <strong>${{ number_format($latestGdpPerCapitaValue) }}</strong>
+    </p>
+    <p>Income Category(According to the <a href="https://blogs.worldbank.org/opendata/new-world-bank-country-classifications-income-level-2022-2023">
+        <strong>World Bank</strong>
+      </a>): <strong>{{ $incomeCategory }}</strong>
+    </p>
+  </div>
+  <div class="col-12">
     <h4 class="mb-4 text-center">OUR OFFICE(S)</h4>
-      <div class="row row-cards"> @foreach($perwakilanData as $data) <div class="col-sm-6 col-lg-3">
-          <div class="card card-sm mb-2">
-            <div class="card-body">
-              <div class="row align-items-center">
-                <div class="col-auto">
-                  <span class="flag flag-country-id display-4 mb-4" style="font-size: 3rem;"></span>
+    <div class="row row-cards"> @foreach($perwakilanData as $data) <div class="col-sm-6 col-lg-3">
+        <div class="card card-sm mb-2">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class="flag flag-country-id display-4 mb-4" style="font-size: 3rem;"></span>
+              </div>
+              <div class="col">
+                <div class="font-weight-medium">
+                  {{ $data->Office }}
                 </div>
-                <div class="col">
-                  <div class="font-weight-medium">
-                    {{ $data->Office }}
-                  </div>
-                  <div class="text-secondary">
-                    {{ $data->Region }}
-                  </div>
+                <div class="text-secondary">
+                  {{ $data->Region }}
                 </div>
               </div>
             </div>
           </div>
-        </div> @endforeach </div>
+        </div>
+      </div> @endforeach </div>
+  </div>
+  {{-- belanja pengadaan --}}
+  <div class="col-12">
+    <h4 class="mb-4 text-center">PROCUREMENT OF GOODS AND SERVICES <br />PERMENLU 03 2023 </h4>
+    <div class="row row-cards"> @if($belanjaPengadaanData)
+      <!-- E-Purchasing Card -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="card card-sm mb-2">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
+              </div>
+              <div class="col">
+                <div class="font-weight-medium"> E-Purchasing </div>
+                <div class="text-secondary"> USD {{ number_format($belanjaPengadaanData->ePurchasing, 0, '.', ',') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Pengadaan Langsung Card -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="card card-sm mb-2">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
+              </div>
+              <div class="col">
+                <div class="font-weight-medium"> Pengadaan Langsung </div>
+                <div class="text-secondary"> USD {{ number_format($belanjaPengadaanData->PengadaanLangsung, 0, '.', ',') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Tender Konstruksi Card -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="card card-sm mb-2">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
+              </div>
+              <div class="col">
+                <div class="font-weight-medium"> Tender untuk Konstruksi </div>
+                <div class="text-secondary"> USD {{ number_format($belanjaPengadaanData->TenderKonstruksi, 0, '.', ',') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Seleksi Jasa Card -->
+      <div class="col-sm-6 col-lg-3">
+        <div class="card card-sm mb-2">
+          <div class="card-body">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
+              </div>
+              <div class="col">
+                <div class="font-weight-medium"> Seleksi untuk Jasa </div>
+                <div class="text-secondary"> USD {{ number_format($belanjaPengadaanData->Seleksi, 0, '.', ',') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> @else <div class="col-12">
+        <p class="text-center">No data available for this country's procurement.</p>
+      </div> @endif
     </div>
-{{-- belanja pengadaan --}}
+  </div>
+  {{-- belanja pengadaan --}}
+  <div class="row">
+    <div class="col-12 mt-5">
+      <h4 class="mb-4 text-center">INTERNATIONAL DATA <br />UN DATA </h4>
+    </div>
+    <div class="col-md-6 col-lg-6 mx-auto">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">GDP Constant Prices</h5>
+          <div id="chart-gdp-constant"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6 mx-auto">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">GDP Per Capita</h5>
+          <div id="chart-gdp-per-capita"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Comparison Between Current Price and Constant/Real 2010 Price</h5>
+          <div id="chart-gdp-comparison"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- Male and Female Ratio Card -->
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Male and Female Ratio</h5>
+          <div id="male-female-pie"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Ages Card -->
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Ages</h5>
+          <div id="age-comparison-pie"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Crime Data</h5>
+          <div id="chart-combination-crime"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">Comparison Between Tourism Expenditure and Tourism Arrival</h5>
+          <div id="chart-tourism-comparison"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-12">
-        <h4 class="mb-4 text-center">PROCUREMENT OF GOODS AND SERVICES<br/>PERMENLU 03 2023</h4>
-        <div class="row row-cards">
-
-            @if($belanjaPengadaanData)
-
-            <!-- E-Purchasing Card -->
-            <div class="col-sm-6 col-lg-3">
-                <div class="card card-sm mb-2">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
-                            </div>
-                            <div class="col">
-                                <div class="font-weight-medium">
-                                    E-Purchasing
-                                </div>
-                                <div class="text-secondary">
-                                    USD {{ number_format($belanjaPengadaanData->ePurchasing, 0, '.', ',') }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="card">
+        <div class="card-header">
+          <ul class="nav nav-tabs card-header-tabs nav-fill" id="myTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="education-tab" data-bs-toggle="tab" href="#education" role="tab" aria-controls="education" aria-selected="true">Education Expenditure</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="enrollment-tab" data-bs-toggle="tab" href="#enrollment" role="tab" aria-controls="enrollment" aria-selected="false">Student Enrollment</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="staff-tab" data-bs-toggle="tab" href="#staff" role="tab" aria-controls="staff" aria-selected="false">Teaching Staff Data</a>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body">
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="education" role="tabpanel" aria-labelledby="education-tab">
+              <h5 class="card-title">Education Expenditure</h5>
+              <div id="chart-combination"></div>
             </div>
-
-            <!-- Pengadaan Langsung Card -->
-            <div class="col-sm-6 col-lg-3">
-                <div class="card card-sm mb-2">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
-                            </div>
-                            <div class="col">
-                                <div class="font-weight-medium">
-                                    Pengadaan Langsung
-                                </div>
-                                <div class="text-secondary">
-                                    USD {{ number_format($belanjaPengadaanData->PengadaanLangsung, 0, '.', ',') }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="tab-pane fade" id="enrollment" role="tabpanel" aria-labelledby="enrollment-tab">
+              <h5 class="card-title">Student Enrollment</h5>
+              <div id="chart-combination-enrollment"></div>
             </div>
-
-            <!-- Tender Konstruksi Card -->
-            <div class="col-sm-6 col-lg-3">
-                <div class="card card-sm mb-2">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
-                            </div>
-                            <div class="col">
-                                <div class="font-weight-medium">
-                                    Tender untuk Konstruksi
-                                </div>
-                                <div class="text-secondary">
-                                    USD {{ number_format($belanjaPengadaanData->TenderKonstruksi, 0, '.', ',') }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Seleksi Jasa Card -->
-            <div class="col-sm-6 col-lg-3">
-                <div class="card card-sm mb-2">
-                    <div class="card-body">
-                        <div class="row align-items-center">
-                            <div class="col-auto">
-                                <span class="flag flag-country-{{ $countryLowerCase }} display-4 mb-4" style="font-size: 3rem;"></span>
-                            </div>
-                            <div class="col">
-                                <div class="font-weight-medium">
-                                    Seleksi untuk Jasa
-                                </div>
-                                <div class="text-secondary">
-                                    USD {{ number_format($belanjaPengadaanData->Seleksi, 0, '.', ',') }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            @else
-
-            <div class="col-12">
-                <p class="text-center">No data available for this country's procurement.</p>
-            </div>
-
-            @endif
-
-        </div>
-    </div>
-
-{{-- belanja pengadaan --}}
-    <div class="row">
-        <div class="col-12 mt-5">
-            <h4 class="mb-4 text-center">INTERNATIONAL DATA<br />UN DATA</h4>
-        </div>
-      <div class="col-md-6 col-lg-6 mx-auto">
-        <div class="card mb-4">
-          <div class="card-body">
-            <h5 class="card-title">GDP Constant Prices</h5>
-            <div id="chart-gdp-constant"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-lg-6 mx-auto">
-        <div class="card mb-4">
-          <div class="card-body">
-            <h5 class="card-title">GDP Per Capita</h5>
-            <div id="chart-gdp-per-capita"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card mb-4">
-          <div class="card-body">
-            <h5 class="card-title">Comparison Between Current Price and Constant/Real 2010 Price</h5>
-            <div id="chart-gdp-comparison"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card mb-4">
-          <div class="card-body">
-            <h5 class="card-title">Crime Data</h5>
-            <div id="chart-combination-crime"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs nav-fill" id="myTabs" role="tablist">
-              <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="education-tab" data-bs-toggle="tab" href="#education" role="tab" aria-controls="education" aria-selected="true">Education Expenditure</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link" id="enrollment-tab" data-bs-toggle="tab" href="#enrollment" role="tab" aria-controls="enrollment" aria-selected="false">Student Enrollment</a>
-              </li>
-              <li class="nav-item" role="presentation">
-                <a class="nav-link" id="staff-tab" data-bs-toggle="tab" href="#staff" role="tab" aria-controls="staff" aria-selected="false">Teaching Staff Data</a>
-              </li>
-            </ul>
-          </div>
-          <div class="card-body">
-            <div class="tab-content" id="myTabContent">
-              <div class="tab-pane fade show active" id="education" role="tabpanel" aria-labelledby="education-tab">
-                <h5 class="card-title">Education Expenditure</h5>
-                <div id="chart-combination"></div>
-              </div>
-              <div class="tab-pane fade" id="enrollment" role="tabpanel" aria-labelledby="enrollment-tab">
-                <h5 class="card-title">Student Enrollment</h5>
-                <div id="chart-combination-enrollment"></div>
-              </div>
-              <div class="tab-pane fade" id="staff" role="tabpanel" aria-labelledby="staff-tab">
-                <h5 class="card-title">Teaching Staff Data</h5>
-                <div id="chart-combination-staff"></div>
-              </div>
+            <div class="tab-pane fade" id="staff" role="tabpanel" aria-labelledby="staff-tab">
+              <h5 class="card-title">Teaching Staff Data</h5>
+              <div id="chart-combination-staff"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="container my-4">
-    <!-- GDP Data -->
-    <div class="card mb-4">
-      <div class="card-header">
-        <h2>GDP Data</h2>
+  <h4 class="my-4 text-center">ANALYTICS <br />ACCROSS THE DATASETS </h4>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title">GDP Growth, Public Education Expenditure and Intentional Homicide Visualized</h5>
+          <div id="chart-gdp-edu-crime"></div>
+        </div>
       </div>
-      <div class="card-body"> @if($gdpData->isEmpty()) <p>No GDP data available for this country.</p> @else <table id="gdpDataTable" class="table table-hover">
-          <thead>
-            <tr>
-              <th>Year</th>
-              <th>Series</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody> @foreach($gdpData as $data) <tr>
-              <td>{{ $data->Year }}</td>
-              <td>{{ $data->Series }}</td>
-              <td>{{ number_format($data->Value) }}</td>
-            </tr> @endforeach </tbody>
-        </table> @endif </div>
-    </div>
-    <!-- Education Public Expenditure -->
-    <div class="card mb-4">
-      <div class="card-header">
-        <h2>Education Public Expenditure</h2>
-      </div>
-      <div class="card-body"> @if($educationData->isEmpty()) <p>No Education Public Expenditure data available for this country.</p> @else <table id="educationDataTable" class="table table-hover">
-          <thead>
-            <tr>
-              <th>Year</th>
-              <th>Series</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody> @foreach($educationData as $data) <tr>
-              <td>{{ $data->Year }}</td>
-              <td>{{ $data->Series }}</td>
-              <td>{{ number_format($data->Value) }}</td>
-            </tr> @endforeach </tbody>
-        </table> @endif </div>
-    </div>
-    <!-- Student Enrollment -->
-    <div class="card mb-4">
-      <div class="card-header">
-        <h2>Student Enrollment</h2>
-      </div>
-      <div class="card-body"> @if($enrollmentData->isEmpty()) <p>No Student Enrollment data available for this country.</p> @else <table id="enrollmentDataTable" class="table table-hover">
-          <thead>
-            <tr>
-              <th>Year</th>
-              <th>Series</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody> @foreach($enrollmentData as $data) <tr>
-              <td>{{ $data->Year }}</td>
-              <td>{{ $data->Series }}</td>
-              <td>{{ number_format($data->Value) }}</td>
-            </tr> @endforeach </tbody>
-        </table> @endif </div>
-    </div>
-    <!-- Teaching Staff -->
-    <div class="card mb-4">
-      <div class="card-header">
-        <h2>Teaching Staff</h2>
-      </div>
-      <div class="card-body"> @if($staffData->isEmpty()) <p>No Teaching Staff data available for this country.</p> @else <table id="staffDataTable" class="table table-hover">
-          <thead>
-            <tr>
-              <th>Year</th>
-              <th>Series</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody> @foreach($staffData as $data) <tr>
-              <td>{{ $data->Year }}</td>
-              <td>{{ $data->Series }}</td>
-              <td>{{ number_format($data->Value) }}</td>
-            </tr> @endforeach </tbody>
-        </table> @endif </div>
-    </div>
-    <!-- Crime Data -->
-    <div class="card mb-4">
-      <div class="card-header">
-        <h2>Crime Data</h2>
-      </div>
-      <div class="card-body"> @if($crimeData->isEmpty()) <p>No Crime data available for this country.</p> @else <table id="crimeDataTable" class="table table-hover">
-          <thead>
-            <tr>
-              <th>Year</th>
-              <th>Series</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody> @foreach($crimeData as $data) <tr>
-              <td>{{ $data->Year }}</td>
-              <td>{{ $data->Series }}</td>
-              <td>{{ number_format((float)$data->Value) }}</td>
-            </tr> @endforeach </tbody>
-        </table> @endif </div>
     </div>
   </div>
+</div>
+<div class="container my-4">
+  <!-- GDP Data -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>GDP Data</h2>
+    </div>
+    <div class="card-body"> @if($gdpData->isEmpty()) <p>No GDP data available for this country.</p> @else <table id="gdpDataTable" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Series</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody> @foreach($gdpData as $data) <tr>
+            <td>{{ $data->Year }}</td>
+            <td>{{ $data->Series }}</td>
+            <td>{{ number_format($data->Value) }}</td>
+          </tr> @endforeach </tbody>
+      </table> @endif </div>
+  </div>
+  <!-- Education Public Expenditure -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>Education Public Expenditure</h2>
+    </div>
+    <div class="card-body"> @if($educationData->isEmpty()) <p>No Education Public Expenditure data available for this country.</p> @else <table id="educationDataTable" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Series</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody> @foreach($educationData as $data) <tr>
+            <td>{{ $data->Year }}</td>
+            <td>{{ $data->Series }}</td>
+            <td>{{ number_format($data->Value) }}</td>
+          </tr> @endforeach </tbody>
+      </table> @endif </div>
+  </div>
+  <!-- Student Enrollment -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>Student Enrollment</h2>
+    </div>
+    <div class="card-body"> @if($enrollmentData->isEmpty()) <p>No Student Enrollment data available for this country.</p> @else <table id="enrollmentDataTable" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Series</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody> @foreach($enrollmentData as $data) <tr>
+            <td>{{ $data->Year }}</td>
+            <td>{{ $data->Series }}</td>
+            <td>{{ number_format($data->Value) }}</td>
+          </tr> @endforeach </tbody>
+      </table> @endif </div>
+  </div>
+  <!-- Teaching Staff -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>Teaching Staff</h2>
+    </div>
+    <div class="card-body"> @if($staffData->isEmpty()) <p>No Teaching Staff data available for this country.</p> @else <table id="staffDataTable" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Series</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody> @foreach($staffData as $data) <tr>
+            <td>{{ $data->Year }}</td>
+            <td>{{ $data->Series }}</td>
+            <td>{{ number_format($data->Value) }}</td>
+          </tr> @endforeach </tbody>
+      </table> @endif </div>
+  </div>
+  <!-- Crime Data -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>Crime Data</h2>
+    </div>
+    <div class="card-body"> @if($crimeData->isEmpty()) <p>No Crime data available for this country.</p> @else <table id="crimeDataTable" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Series</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody> @foreach($crimeData as $data) <tr>
+            <td>{{ $data->Year }}</td>
+            <td>{{ $data->Series }}</td>
+            <td>{{ number_format((float)$data->Value) }}</td>
+          </tr> @endforeach </tbody>
+      </table> @endif </div>
+  </div>
+  <!-- population data -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>Population Data</h2>
+    </div>
+    <div class="card-body"> @if($populationData->isEmpty()) <p>No Population data available for this country.</p> @else <table id="populationDataTable" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Series</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody> @foreach($populationData as $data) <tr>
+            <td>{{ $data->Year }}</td>
+            <td>{{ $data->Series }}</td>
+            <td>{{ number_format((float)$data->Value) }}</td>
+          </tr> @endforeach </tbody>
+      </table> @endif </div>
+  </div>
+  <!-- tourism data -->
+  <div class="card mb-4">
+    <div class="card-header">
+      <h2>Tourism Data</h2>
+    </div>
+    <div class="card-body"> @if($tourismData->isEmpty()) <p>No Tourism data available for this country.</p> @else <table id="tourismDataTable" class="table table-hover">
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Series</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody> @foreach($tourismData as $data) <tr>
+            <td>{{ $data->Year }}</td>
+            <td>{{ $data->Series }}</td>
+            <td>{{ number_format((float)$data->Value) }}</td>
+          </tr> @endforeach </tbody>
+      </table> @endif </div>
+  </div>
+</div>
   
   <script>
   $(document).ready(function () {
@@ -328,65 +391,11 @@
       $('#enrollmentDataTable').DataTable();
       $('#staffDataTable').DataTable();
       $('#crimeDataTable').DataTable();
+      $('#populationDataTable').DataTable();
+      $('#tourismDataTable').DataTable();
   });
   </script>
 {{-- global download --}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Add a click event listener to the download button
-        document.getElementById("download-csv").addEventListener("click", function () {
-            // Initialize an empty CSV string
-            let csvData = '';
-
-            // Helper function to gather data from a table and append it to the CSV string
-            function gatherTableData(tableSelector, headerSelector) {
-                const table = document.querySelector(tableSelector);
-                if (table) {
-                    const headers = Array.from(table.querySelectorAll(headerSelector)).map(header => header.textContent.trim());
-                    const rows = Array.from(table.querySelectorAll("tbody tr")).map(row => {
-                        return Array.from(row.querySelectorAll("td")).map(cell => cell.textContent.trim());
-                    });
-
-                    csvData += Papa.unparse({
-                        fields: headers,
-                        data: rows
-                    });
-
-                    // Debugging: Log the extracted data
-                    console.log(`Extracted data from ${tableSelector}:`);
-                    console.log(headers);
-                    console.log(rows);
-                }
-            }
-
-            // Gather data from all tables
-            gatherTableData("#gdp-data-table", "thead th");
-            gatherTableData("#education-data-table", "thead th");
-            gatherTableData("#enrollment-data-table", "thead th");
-            gatherTableData("#staff-data-table", "thead th");
-            gatherTableData("#crime-data-table", "thead th");
-
-            // Debugging: Log the final CSV data
-            console.log("Final CSV Data:");
-            console.log(csvData);
-
-            // Create a Blob containing the CSV data
-            let blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
-
-            // Create a link element and trigger a download
-            let link = document.createElement("a");
-            link.href = window.URL.createObjectURL(blob);
-            link.download = "country_data.csv";
-            link.style.display = "none";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-    });
-</script>
-
 
 
 {{-- non dynamic template --}}
@@ -1075,6 +1084,312 @@
         }).render();
     });
 </script>
+
+{{-- tourism comparison --}}
+
+<script>
+    // Convert Laravel data to JavaScript variables for Tourism data (Comparison)
+    let tourismDataComparison = @json(array_merge($tourismExpenditureData, $tourismArrivalData));
+    let series_tourismComparison = [];
+
+    // Organize data by series and year for tourismData (Comparison)
+    let seriesData_tourismComparison = {};
+    tourismDataComparison.forEach(data => {
+        if (!seriesData_tourismComparison[data.Series]) {
+            seriesData_tourismComparison[data.Series] = {};
+        }
+        seriesData_tourismComparison[data.Series][data.Year] = data.Value;
+    });
+
+    // Extract the unique years for the x-axis categories and sort them in ascending order for tourismData (Comparison)
+    let years_tourismComparison = Array.from(new Set(tourismDataComparison.map(data => data.Year))).sort((a, b) => a - b);
+
+    // Populate the series array with data or empty values for tourismData (Comparison)
+    Object.keys(seriesData_tourismComparison).forEach(seriesName => {
+        let seriesValues_tourismComparison = [];
+        years_tourismComparison.forEach(year => {
+            seriesValues_tourismComparison.push(seriesData_tourismComparison[seriesName][year] || null);
+        });
+        series_tourismComparison.push({
+            name: seriesName,
+            data: seriesValues_tourismComparison
+        });
+    });
+
+    // Initialize the ApexCharts for tourismData (Comparison)
+    document.addEventListener("DOMContentLoaded", function () {
+        new ApexCharts(document.getElementById('chart-tourism-comparison'), {
+            chart: {
+                type: "area",
+                fontFamily: 'inherit',
+                height: 240,
+                parentHeightOffset: 0,
+                toolbar: {
+                    show: false,
+                },
+                animations: {
+                    enabled: false
+                },
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: '50%',
+                }
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            fill: {
+                opacity: 1,
+            },
+            series: series_tourismComparison,
+            tooltip: {
+                theme: 'dark'
+            },
+            grid: {
+                padding: {
+                    top: -20,
+                    right: 0,
+                    left: -4,
+                    bottom: -4
+                },
+                strokeDashArray: 4,
+            },
+            xaxis: {
+                labels: {
+                    padding: 0,
+                },
+                tooltip: {
+                    enabled: false
+                },
+                axisBorder: {
+                    show: false,
+                },
+                categories: years_tourismComparison,
+            },
+            yaxis: {
+                labels: {
+                    padding: 4,
+                    formatter: (val) => {
+                        return Number(val).toLocaleString(); // this will format numbers with thousands separators
+                    }
+                },
+            },
+            colors: ["#3BB4E9","#FF6B6B"],
+            legend: {
+                show: true,
+            },
+        }).render();
+    });
+
+</script>
+
+{{-- male female comparison --}}
+<script>
+    // @formatter:off
+    document.addEventListener("DOMContentLoaded", function () {
+      window.ApexCharts && (new ApexCharts(document.getElementById('male-female-pie'), {
+        chart: {
+          type: "donut",
+          fontFamily: 'inherit',
+          height: 240,
+          sparkline: {
+            enabled: true
+          },
+          animations: {
+            enabled: false
+          },
+        },
+        fill: {
+          opacity: 1,
+        },
+        series: [{{ $malePercentage }}, {{ $femalePercentage }}], // Use the calculated percentages
+        labels: ["Male", "Female"], // Set the labels
+        tooltip: {
+          theme: 'dark'
+        },
+        grid: {
+          strokeDashArray: 4,
+        },
+        colors: ["#007BFF", "#FF69B4"], // Blue for Male, Pink for Female
+        legend: {
+          show: true,
+          position: 'bottom',
+          offsetY: 12,
+          markers: {
+            width: 10,
+            height: 10,
+            radius: 100,
+          },
+          itemMargin: {
+            horizontal: 8,
+            vertical: 8
+          },
+        },
+        tooltip: {
+            fillSeriesColor: false,
+            y: {
+                formatter: function(value) {
+                    return value.toFixed(2) + '%';
+                }
+            }
+        },
+      })).render();
+    });
+    // @formatter:on
+</script>
+
+{{-- age comparison --}}
+<script>
+// @formatter:off
+    document.addEventListener("DOMContentLoaded", function () {
+        window.ApexCharts && (new ApexCharts(document.getElementById('age-comparison-pie'), {
+            chart: {
+                type: "donut",
+                fontFamily: 'inherit',
+                height: 240,
+                sparkline: {
+                    enabled: true
+                },
+                animations: {
+                    enabled: false
+                },
+            },
+            fill: {
+                opacity: 1,
+            },
+            series: [{{ $youngPercentage }}, {{ $midPopulationPercentage }}, {{ $oldPercentage }}], // Use the calculated percentages
+            labels: ["0-14 Years Old", "15-59 Years Old", "60+ Years Old"], // Set the labels
+            tooltip: {
+                theme: 'dark'
+            },
+            grid: {
+                strokeDashArray: 4,
+            },
+            colors: ["#007BFF", "#00FF00", "#FFFF00"], // Blue for Young, Green for Mid, Yellow for Old
+            legend: {
+                show: true,
+                position: 'bottom',
+                offsetY: 12,
+                markers: {
+                    width: 10,
+                    height: 10,
+                    radius: 100,
+                },
+                itemMargin: {
+                    horizontal: 8,
+                    vertical: 8
+                },
+            },
+            tooltip: {
+            fillSeriesColor: false,
+            y: {
+                formatter: function(value) {
+                    return value.toFixed(2) + '%';
+                }
+            }
+        },
+        })).render();
+    });
+// @formatter:on
+</script>
+
+{{-- 3 data comparison --}}
+<script>
+    // Convert Laravel data to JavaScript variables for GDP, Education, and Crime data
+    let gdpRealGrowthData = @json($gdpRealGrowth);
+    let intentionalHomicideData = @json($intentionalHomicide);
+    let publicEduExpenditureData = @json($publicEduExpenditure);
+
+    // Organize data by year for gdpRealGrowthData
+    let years_gdpRealGrowth = Object.keys(gdpRealGrowthData);
+    let series_gdpRealGrowth = [{
+        name: 'GDP real rates of growth (percent)',
+        data: years_gdpRealGrowth.map(year => gdpRealGrowthData[year])
+    }];
+
+    // Organize data by year for intentionalHomicideData
+    let years_intentionalHomicide = Object.keys(intentionalHomicideData);
+    let series_intentionalHomicide = [{
+        name: 'Intentional homicide rates per 100,000',
+        data: years_intentionalHomicide.map(year => intentionalHomicideData[year])
+    }];
+
+    // Organize data by year for publicEduExpenditureData
+    let years_publicEduExpenditure = Object.keys(publicEduExpenditureData);
+    let series_publicEduExpenditure = [{
+        name: 'Public expenditure on education (% of GDP)',
+        data: years_publicEduExpenditure.map(year => publicEduExpenditureData[year])
+    }];
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Initialize the ApexCharts for gdp-edu-crime
+        new ApexCharts(document.getElementById('chart-gdp-edu-crime'), {
+            chart: {
+                type: "area",
+                fontFamily: 'inherit',
+                height: 240,
+                parentHeightOffset: 0,
+                toolbar: {
+                    show: false,
+                },
+                animations: {
+                    enabled: false
+                },
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: '50%',
+                }
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            fill: {
+                opacity: 1,
+            },
+            series: series_gdpRealGrowth.concat(series_intentionalHomicide, series_publicEduExpenditure),
+            tooltip: {
+                theme: 'dark'
+            },
+            grid: {
+                padding: {
+                    top: -20,
+                    right: 0,
+                    left: -4,
+                    bottom: -4
+                },
+                strokeDashArray: 4,
+            },
+            xaxis: {
+                labels: {
+                    padding: 0,
+                },
+                tooltip: {
+                    enabled: false
+                },
+                axisBorder: {
+                    show: false,
+                },
+                categories: years_gdpRealGrowth, // Assuming all three datasets have the same years
+            },
+            yaxis: {
+                labels: {
+                    padding: 4,
+                    formatter: (val) => {
+                        return Number(val).toLocaleString(); // this will format numbers with thousands separators
+                    }
+                },
+            },
+            colors: ["#3BB4E9","#FF6B6B", "#73CDB6"],
+            legend: {
+                show: true,
+            },
+        }).render();
+    });
+
+</script>
+
 
 
 {{-- dropdown --}}
