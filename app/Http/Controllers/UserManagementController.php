@@ -8,30 +8,54 @@ use Illuminate\Support\Facades\Hash;
 
 class UserManagementController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('admin.user_management', compact('users'));
+        $query = User::query();
+    
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where('name', 'like', "%$search%")->orWhere('email', 'like', "%$search%");
+        }
+    
+        $users = $query->paginate(10);
+        return view('admin.list_users', ['users' => $users]);
+    }
+      
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.edit_user', ['user' => $user]);
     }
     
-    public function edit(User $user)
+    public function update(Request $request, $id)
     {
-        return view('admin.edit_user', compact('user'));
+        $user = User::findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'nullable|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'role' => 'required|string|max:50',
+            'status' => 'required|string|max:50',
+            // Add any other fields to be validated here
+        ]);
+    
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($request->password);
+        }
+    
+        $user->update($validated);
+    
+        return redirect()->route('admin.usermanagement.index')->with('success', 'User updated successfully');
     }
     
-    public function update(Request $request, User $user)
+    public function destroy($id)
     {
-        // Validate and update the user's data here
-    
-        $user->update($request->all());
-        return redirect()->route('admin.usermanagement');
-    }
-    
-    public function destroy(User $user)
-    {
+        $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->route('admin.usermanagement');
+        return redirect()->route('admin.usermanagement.index')->with('success', 'User deleted successfully');
     }
+    
     public function create()
     {
         return view('admin.create_user');

@@ -1,6 +1,19 @@
 @extends('admin.admin_dashboard')
 @section('admin')
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if($errors->any())
+    <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-9 mx-auto">
@@ -45,10 +58,10 @@
                             <div class="form-label">Change Profile Picture</div>
                             <input id="ProfileImage" type="file" name="photo" class="form-control"/>
                         </div>
-                        <h3 class="card-title mt-4">Password</h3>
-                        <p class="card-subtitle">Set a new password</p>
+
                         <div>
-                            <label for="password" class="form-label">New Password</label>
+                            <label for="password" class="form-label">Password</label>
+                            <p class="card-subtitle">Change your password</p>
                             <input type="password" name="password" class="form-control" id="password">
                         </div>
                     </div>
