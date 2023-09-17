@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
-    
+
     protected function getGeoChartData()
     {
         $data = DB::table('gdp-data')
@@ -60,24 +60,24 @@ class AdminController extends Controller
         $data->username = $request->username;
         $data->role = $request->role;
         $data->email = $request->email;
-
+    
         if ($request->file('photo')) {
             $file = $request->file('photo');
             $filename = date('YmdHi').$file->getClientOriginalName();
             $file->move(public_path('upload/admin_images'),$filename);
             $data['photo'] = $filename;
         }
+    
+        // Check if a new password was provided
+        if ($request->has('password')) {
+            $data->password = bcrypt($request->password);
+        }
+    
         $data->save();
         return redirect()->back();
     }
+    
 
-    public function UserName(){
-
-        $id = Auth::user()->id;
-        $profileData = User::find($id);
-        return view('admin.body.header',compact('profileData'));
-
-    }//end method
     public function GeoChart()
     {
         $data = $this->getGeoChartData();

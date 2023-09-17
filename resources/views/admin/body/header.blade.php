@@ -6,9 +6,10 @@
     <div class="navbar-nav flex-row order-md-last">
       <div class="nav-item dropdown">
         <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+          <img class="avatar avatar-sm" src="{{ (!empty($profileData->photo)) ? url('upload/admin_images/'.$profileData->photo) : url('upload/no_image.jpg')}}" alt="Profile Photo">
           <div class="d-none d-xl-block ps-2">
-            {{-- <div>{{ $profileData->username }}</div>
-            <div class="mt-1 small text-secondary">{{ $profileData->role }}</div> --}}
+            <div>{{ $profileData->username }}</div>
+            <div class="mt-1 small text-secondary">{{ $profileData->role }}</div>
           </div>
         </a>
         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">

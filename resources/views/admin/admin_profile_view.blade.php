@@ -15,16 +15,7 @@
                                 <img class="avatar avatar-xl" src="{{ (!empty($profileData->photo)) ? url('upload/admin_images/'.$profileData->photo) : url('upload/no_image.jpg')}}" alt="Avatar">
                             </div>                        
                         </div>
-                        <h3 class="card-title mt-4">Business Profile</h3>
-                        <div class="row g-3">
-                            <div class="mb-3">
-                                <div class="form-label">Change Profile Picture</div>
-                                <input id="ProfileImage" type="file" name="photo" class="form-control"/>
-                            </div>
-                            <div class="mb-3">
-                                <div class="form-label"></div>
-                                <img id="ShowProfileImage" class="avatar avatar-xl" src="{{ (!empty($profileData->photo)) ? url('upload/admin_images/'.$profileData->photo) : url('upload/no_image.jpg')}}" alt="Avatar">
-                            </div>
+                        <div class="row g-3 mt-3">
                             <div class="col-md">
                                 <div class="form-group">
                                     <label for="businessName" class="form-label">Name</label>
@@ -45,18 +36,21 @@
                             </div>
                         </div>
                         <h3 class="card-title mt-4">Email</h3>
-                        <p class="card-subtitle">This contact will be shown to others publicly, so choose it carefully.</p>
                         <div class="row g-2 align-items-center">
                             <div class="col-auto">
                                 <input type="email" name="email" class="form-control" value="{{ $profileData->email }}">
                             </div>
                         </div>
-                        <h3 class="card-title mt-4">Password</h3>
-                        <p class="card-subtitle">You can set a permanent password if you don't want to use temporary login codes.</p>
-                        <div>
-                            <a href="#" class="btn btn-link">Set new password</a>
+                        <div class="my-5">
+                            <div class="form-label">Change Profile Picture</div>
+                            <input id="ProfileImage" type="file" name="photo" class="form-control"/>
                         </div>
-                        
+                        <h3 class="card-title mt-4">Password</h3>
+                        <p class="card-subtitle">Set a new password</p>
+                        <div>
+                            <label for="password" class="form-label">New Password</label>
+                            <input type="password" name="password" class="form-control" id="password">
+                        </div>
                     </div>
                     <div class="card-footer bg-transparent">
                         <div class="btn-list justify-content-end">

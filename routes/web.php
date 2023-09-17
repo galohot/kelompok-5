@@ -39,7 +39,7 @@ Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.
 //admin middleware
 Route::middleware(['auth','role:admin'])->group(function(){
     Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
-    Route::get('/admin/body/header', [AdminController::class, 'UserName'])->name('admin.username');
+
     Route::get('/admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
     Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
     Route::post('/admin/profile/store', [AdminController::class, 'AdminProfileStore'])->name('admin.profile.store');
@@ -48,7 +48,16 @@ Route::middleware(['auth','role:admin'])->group(function(){
     Route::get('/admin/datastudio_edu', [AdminController::class, 'DataStudioEDU'])->name('admin.datastudioedu');
     Route::get('/admin/datastudio_crime', [AdminController::class, 'DataStudioCRIME'])->name('admin.datastudiocrime');
     Route::get('/admin/countryprofile/{countryCode}', [CountryProfileController::class, 'show'])->name('admin.countryprofile');
-    Route::get('/admin/user_management', [UserManagementController::class, 'UserManagement'])->name('admin.usermanagement');
+    Route::resource('/admin/user_management', UserManagementController::class)->names([
+        'index' => 'admin.usermanagement.index',
+        'create' => 'admin.usermanagement.create',
+        'store' => 'admin.usermanagement.store',
+        'edit' => 'admin.usermanagement.edit',
+        'update' => 'admin.usermanagement.update',
+        'destroy' => 'admin.usermanagement.destroy',
+    ]);
+    
+    
 }); // End Group Admin Middleware
 
 
