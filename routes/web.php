@@ -56,8 +56,8 @@ Route::middleware(['auth','role:admin'])->group(function(){
         'update' => 'admin.usermanagement.update',
         'destroy' => 'admin.usermanagement.destroy',
     ]);
-    
-    
+    Route::get('/admin/countrydata/{countryCode}', [CountryProfileController::class, 'data'])->name('admin.countrydata');
+
 }); // End Group Admin Middleware
 
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use App\Models\PerwakilanMaster;
 
 
 class AdminController extends Controller
@@ -13,18 +14,21 @@ class AdminController extends Controller
 
     protected function getGeoChartData()
     {
-        $data = DB::table('gdp-data')
+        $geoChartData = DB::table('gdp-data')
             ->where('Year', 2020)
             ->where('Series', 'GDP real rates of growth (percent)')
             ->select('CountryCode', 'Country', DB::raw('FORMAT(Value, 0) AS Value')) 
             ->get();
 
-        return $data->pluck('Value', 'CountryCode')->toArray();
+        return $geoChartData->pluck('Value', 'CountryCode')->toArray();
     }
+
     public function AdminDashboard()
     {
-        $data = $this->getGeoChartData();
-        return view('admin.index', compact('data'));
+        $geoChartData = $this->getGeoChartData();
+        $perwakilanData = PerwakilanMaster::all();
+        $uniqueRegionsCount = PerwakilanMaster::distinct('Country')->count();
+        return view('admin.index', compact('geoChartData','perwakilanData','uniqueRegionsCount'));
     }
 
     public function AdminLogout(Request $request)

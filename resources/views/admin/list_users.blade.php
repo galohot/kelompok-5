@@ -20,7 +20,9 @@
             <input type="text" name="search" class="form-control" placeholder="Search by name or email">
             <button type="submit" class="btn btn-primary mt-2">Search</button>
         </form>
-    </div>    
+    </div>
+    <a href="{{ route('admin.usermanagement.create') }}" class="btn btn-success my-4">Create User</a>
+
     @foreach($users as $user)
     <div class="card mb-3">
         <div class="card-body">

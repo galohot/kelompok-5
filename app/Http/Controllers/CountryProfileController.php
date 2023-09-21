@@ -133,6 +133,19 @@ class CountryProfileController extends Controller
         ));
         
     }
- 
+    public function data($countryCode)
+    {
+        $countries = CountryMaster::all();
+        $countryName = CountryMaster::where('CountryCode', $countryCode)->value('Country');
+        $perwakilanData = PerwakilanMaster::where('CountryCode', $countryCode)->get(['Office', 'Region']);
+        $region = ($perwakilanData && $perwakilanData->first()) ? $perwakilanData->first()->Region : null;
+        $belanjaPengadaanData = $region ? BelanjaPengadaanMaster::where('CountryCode', $countryCode)
+                                          ->where('Region', $region)
+                                          ->first(['ePurchasing','PengadaanLangsung','TenderKonstruksi','Seleksi']) 
+                                      : null;
+    
+        return view('admin.countrydata', compact('countries', 'countryCode', 'perwakilanData', 'belanjaPengadaanData'));
+    }
+    
     
 }

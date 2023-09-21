@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ContentManagementController extends Controller
+class IndexDataController extends Controller
 {
     //
 }
