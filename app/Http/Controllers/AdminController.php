@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Models\PerwakilanMaster;
+use App\Models\WorldBankWorld;
+use App\Models\WorldBankEdu;
+use App\Models\WorldBankTrade;
 
 
 class AdminController extends Controller
@@ -28,7 +31,9 @@ class AdminController extends Controller
         $geoChartData = $this->getGeoChartData();
         $perwakilanData = PerwakilanMaster::all();
         $uniqueRegionsCount = PerwakilanMaster::distinct('Country')->count();
-        return view('admin.index', compact('geoChartData','perwakilanData','uniqueRegionsCount'));
+        $worldData = WorldBankWorld::all();
+        
+        return view('admin.index', compact('geoChartData','perwakilanData','uniqueRegionsCount','worldData'));
     }
 
     public function AdminLogout(Request $request)
@@ -94,7 +99,7 @@ class AdminController extends Controller
             "autoWidth" => false,
         ];
 
-        return view('admin.geochart', compact('data', 'dataTableOptions'));
+        return view('geochart', compact('data', 'dataTableOptions'));
     }
     
     

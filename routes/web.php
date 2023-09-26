@@ -6,6 +6,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\CountryProfileController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\DataManagementController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -44,10 +46,10 @@ Route::middleware(['auth','role:admin'])->group(function(){
     Route::get('/admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
     Route::post('/admin/profile/store', [AdminController::class, 'AdminProfileStore'])->name('admin.profile.store');
     Route::get('/admin/geochart', [AdminController::class, 'GeoChart'])->name('admin.geochart');
+    Route::get('/admin/countryprofile/{countryCode}', [CountryProfileController::class, 'show'])->name('admin.countryprofile');
     Route::get('/admin/datastudio_gdp', [AdminController::class, 'DataStudioGDP'])->name('admin.datastudiogdp');
     Route::get('/admin/datastudio_edu', [AdminController::class, 'DataStudioEDU'])->name('admin.datastudioedu');
     Route::get('/admin/datastudio_crime', [AdminController::class, 'DataStudioCRIME'])->name('admin.datastudiocrime');
-    Route::get('/admin/countryprofile/{countryCode}', [CountryProfileController::class, 'show'])->name('admin.countryprofile');
     Route::resource('/admin/user_management', UserManagementController::class)->names([
         'index' => 'admin.usermanagement.index',
         'create' => 'admin.usermanagement.create',
@@ -56,9 +58,27 @@ Route::middleware(['auth','role:admin'])->group(function(){
         'update' => 'admin.usermanagement.update',
         'destroy' => 'admin.usermanagement.destroy',
     ]);
-    Route::get('/admin/countrydata/{countryCode}', [CountryProfileController::class, 'data'])->name('admin.countrydata');
+    Route::get('/admin/data_management/{countryCode}', [DataManagementController::class, 'show'])->name('admin.datamanagement');
+    Route::get('/admin/data_management/{countryCode}', [DataManagementController::class, 'show'])->name('admin.datamanagement');
+    Route::post('/admin/data_management/{countryCode}/add_perwakilan', [DataManagementController::class, 'addPerwakilan'])->name('admin.add_perwakilan');
+    Route::post('/admin/data_management/{countryCode}/add_belanja', [DataManagementController::class, 'addBelanja'])->name('admin.add_belanja');
+
+    Route::get('/admin/data_management/{countryCode}/edit_perwakilan/{id}', [DataManagementController::class, 'editPerwakilan'])->name('admin.edit_perwakilan');
+    Route::post('/admin/data_management/{countryCode}/update_perwakilan/{id}', [DataManagementController::class, 'updatePerwakilan'])->name('admin.update_perwakilan');
+    Route::get('/admin/data_management/{countryCode}/edit_belanja/{id}', [DataManagementController::class, 'editBelanja'])->name('admin.edit_belanja');
+    Route::post('/admin/data_management/{countryCode}/update_belanja/{id}', [DataManagementController::class, 'updateBelanja'])->name('admin.update_belanja');
+    
+
+    Route::delete('/admin/data_management/{countryCode}/delete_perwakilan/{id}', [DataManagementController::class, 'destroyPerwakilan'])->name('admin.destroy_perwakilan');
+    Route::delete('/admin/data_management/{countryCode}/delete_belanja/{id}', [DataManagementController::class, 'destroyBelanja'])->name('admin.destroy_belanja');
+
+
 
 }); // End Group Admin Middleware
+
+Route::get('/geochart', [AdminController::class, 'GeoChart'])->name('geochart');
+Route::get('/countryprofile/{countryCode}', [CountryProfileController::class, 'show'])->name('countryprofile');
+
 
 
 //agent middleware

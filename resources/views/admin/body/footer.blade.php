@@ -7,7 +7,10 @@
             <a href="https://kemlu.go.id/portal/id" target="_blank" class="link-secondary" rel="noopener">Kementerian Luar Negeri</a>
           </li>
           <li class="list-inline-item">
-            <a href="https://data.un.org/l" class="link-secondary">UN Data</a>
+            <a href="https://data.un.org/" class="link-secondary">UN Data</a>
+          </li>
+          <li class="list-inline-item">
+            <a href="https://databank.worldbank.org/" class="link-secondary">World Bank Data</a>
           </li>
           <li class="list-inline-item">
             <a href="https://e-ppid.kemlu.go.id/" target="_blank" class="link-secondary" rel="noopener">PPID Kemlu</a>

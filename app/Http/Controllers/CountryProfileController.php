@@ -13,6 +13,10 @@ use App\Models\CountryMaster;
 use App\Models\PerwakilanMaster;
 use App\Models\PopulationDensity;
 use App\Models\Tourism;
+use App\Models\WorldBankMacro;
+use App\Models\WorldBankEdu;
+use App\Models\WorldBankTrade;
+
 
 class CountryProfileController extends Controller
 {
@@ -98,9 +102,27 @@ class CountryProfileController extends Controller
         }
 
         $incomeCategory = categorizeIncome($latestGdpPerCapitaValue);
+        $worldBankAll = WorldBankMacro::where('CountryCode', $countryCode)->get();
 
+        $worldBankMacroData = [];
         
-        return view('admin.countryprofile', compact(
+        foreach ($worldBankAll as $data) {
+            $series = $data->Series;
+            $value = null;
+        
+            for ($year = 2022; $year >= 2018; $year--) {
+                $column = (string)$year;
+                if (!empty($data->$column)) {
+                    $value = $data->$column;
+                    break;
+                }
+            }
+        
+            $worldBankMacroData[$series] = $value;
+        }
+
+        $worldBankTrade = WorldBankTrade::where('CountryCode', $countryCode)->get();
+        return view('countryprofile', compact(
             'countryName', 
             'gdpData', 
             'crimeData', 
@@ -129,23 +151,11 @@ class CountryProfileController extends Controller
             'intentionalHomicide',
             'publicEduExpenditure',
             'latestGdpPerCapitaValue',
-            'incomeCategory'
+            'incomeCategory',
+            'worldBankMacroData'
         ));
         
     }
-    public function data($countryCode)
-    {
-        $countries = CountryMaster::all();
-        $countryName = CountryMaster::where('CountryCode', $countryCode)->value('Country');
-        $perwakilanData = PerwakilanMaster::where('CountryCode', $countryCode)->get(['Office', 'Region']);
-        $region = ($perwakilanData && $perwakilanData->first()) ? $perwakilanData->first()->Region : null;
-        $belanjaPengadaanData = $region ? BelanjaPengadaanMaster::where('CountryCode', $countryCode)
-                                          ->where('Region', $region)
-                                          ->first(['ePurchasing','PengadaanLangsung','TenderKonstruksi','Seleksi']) 
-                                      : null;
-    
-        return view('admin.countrydata', compact('countries', 'countryCode', 'perwakilanData', 'belanjaPengadaanData'));
-    }
-    
+
     
 }

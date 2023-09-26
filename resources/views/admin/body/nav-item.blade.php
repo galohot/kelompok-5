@@ -8,7 +8,7 @@
     </a>
     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
       <a href="#" class="dropdown-item">Status</a>
-      <a href="{{ route('admin.countrydata', ['countryCode' => 'AF']) }}" class="dropdown-item">Data Management</a>
+      <a href="{{ route('admin.datamanagement', ['countryCode' => 'AF']) }}" class="dropdown-item">Data Management</a>
       <a href="{{ route('admin.usermanagement.index') }}" class="dropdown-item">User Management</a>
       <a href="{{ route('admin.profile') }}" class="dropdown-item">Profile</a>
       <a href="#" class="dropdown-item">Feedback</a>

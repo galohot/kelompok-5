@@ -9,4 +9,6 @@ class BelanjaPengadaanMaster extends Model
 {
     use HasFactory;
     protected $table = 'belanja_pengadaan_master';
+
+    protected $fillable = ['ePurchasing	', 'PengadaanLangsung', 'TenderKonstruksi','Seleksi'];
 }
