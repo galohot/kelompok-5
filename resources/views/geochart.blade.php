@@ -1,5 +1,5 @@
-@extends('admin.admin_dashboard')
-@section('admin')
+@extends('dashboard')
+@section('content')
 
 <!-- Add DataTables CSS and JS links if they are not included in your project yet -->
 <div class="container" style="height: 60vh">
@@ -27,7 +27,7 @@
                       <span class="flag flag-country-{{ $countryLowerCase }}"></span>
                     </td>
                     <td class="text-wrap">
-                      <a href="{{ route('admin.countryprofile', ['countryCode' => $countryCode]) }}">{{ $countryName }}</a>
+                      <a href="{{ route('countryprofile', ['countryCode' => $countryCode]) }}">{{ $countryName }}</a>
                     </td>
                     <td>{{ $gdp }} %</td>
                   </tr> @endforeach </tbody>
@@ -40,7 +40,7 @@
   </div>
 
 <script>
-    const countryProfileRoute = "{{ route('admin.countryprofile', ['countryCode' => ':code']) }}";
+    const countryProfileRoute = "{{ route('countryprofile', ['countryCode' => ':code']) }}";
 </script>
 
 <script>
@@ -83,7 +83,7 @@
             onRegionClick: function(event, code, region) {
             // Redirect to the country profile page with the clicked region's CountryCode
             window.location.href = countryProfileRoute.replace(':code', code);
-        },
+            },
         });
         window.addEventListener("resize", () => {
             map.updateSize();

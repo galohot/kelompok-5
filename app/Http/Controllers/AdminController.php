@@ -26,15 +26,28 @@ class AdminController extends Controller
         return $geoChartData->pluck('Value', 'CountryCode')->toArray();
     }
 
-    public function AdminDashboard()
+    public function getDataForAdminDashboard()
     {
         $geoChartData = $this->getGeoChartData();
         $perwakilanData = PerwakilanMaster::all();
         $uniqueRegionsCount = PerwakilanMaster::distinct('Country')->count();
         $worldData = WorldBankWorld::all();
-        
-        return view('admin.index', compact('geoChartData','perwakilanData','uniqueRegionsCount','worldData'));
+    
+        return compact('geoChartData', 'perwakilanData', 'uniqueRegionsCount', 'worldData');
     }
+    
+    public function AdminDashboard()
+    {
+        $data = $this->getDataForAdminDashboard();
+        return view('admin.index', $data);
+    }
+    
+    public function getIndex()
+    {
+        $data = $this->getDataForAdminDashboard();
+        return view('index', $data);
+    }
+    
 
     public function AdminLogout(Request $request)
     {
@@ -44,7 +57,17 @@ class AdminController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/admin/login');
+        return redirect('/login');
+    } //end method
+    public function GeneralLogout(Request $request)
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     } //end method
 
     

@@ -1,5 +1,5 @@
-@extends('admin.admin_dashboard')
-@section('admin')
+@extends('dashboard')
+@section('content')
 
 
 <div class="container">
@@ -12,7 +12,11 @@
           {{ $country->Country }}
         </option> @endforeach </select>
     </div>
+    
+    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'agent')
     <a href="{{ route('admin.datamanagement', ['countryCode' => $countryCode]) }}" class="btn btn-primary">Edit Data</a>
+    @endif
+
   </div>
   @php $countryLowerCase = \App\Models\CountryMaster::where('CountryCode', $countryCode)->value('CCLower'); @endphp
 
@@ -94,6 +98,53 @@
         </div>
     </div>
 </div>
+
+<div class="card my-4">
+    <div class="card-header">
+        <h3 class="m-auto card-title">Trade Data</h3>
+    </div>
+    <div class="card-body">
+        <div class="datagrid">
+            <div class="datagrid-item">
+                <div class="datagrid-title">Exports of goods and services</div>
+                <div class="datagrid-content">{{ $worldBankTradeData['Exports of goods and services (% of GDP)'] ?? 'Null' }} % of GDP</div>
+            </div>
+            <!-- Add the following lines for the new trade data fields -->
+            <div class="datagrid-item">
+                <div class="datagrid-title">Imports of goods and services</div>
+                <div class="datagrid-content">{{ $worldBankTradeData['Imports of goods and services (% of GDP)'] ?? 'Null' }} % of GDP</div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">Fuel exports</div>
+                <div class="datagrid-content">{{ $worldBankTradeData['Fuel exports (% of merchandise exports)'] ?? 'Null' }} % of merchandise exports</div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">Fuel imports</div>
+                <div class="datagrid-content">{{ $worldBankTradeData['Fuel imports (% of merchandise imports)'] ?? 'Null' }} % of merchandise imports</div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">Food exports</div>
+                <div class="datagrid-content">{{ $worldBankTradeData['Food exports (% of merchandise exports)'] ?? 'Null' }} % of merchandise exports</div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">International migrant stock</div>
+                <div class="datagrid-content">{{ $worldBankTradeData['International migrant stock (% of population)'] ?? 'Null' }} % of population</div>
+            </div>
+            <div class="datagrid-item">
+                <div class="datagrid-title">Goods imports</div>
+                <div class="datagrid-content">{{ $worldBankTradeData['Goods imports (BoP, current US$)'] ?? 'Null' }} current US$</div>
+            </div>
+            
+            <div class="datagrid-item">
+                <div class="datagrid-title">Goods exports</div>
+                <div class="datagrid-content">{{ $worldBankTradeData['Goods exports (BoP, current US$)'] ?? 'Null' }} current US$</div>
+            </div>
+            
+            <!-- Continue with other trade data fields... -->
+        </div>
+    </div>
+</div>
+
 
   
   <div class="col-12">
@@ -1469,9 +1520,11 @@
     const countryDropdown = document.getElementById('countryDropdown');
     countryDropdown.addEventListener('change', function () {
         const selectedCountryCode = this.value;
-        window.location.href = `/admin/countryprofile/${selectedCountryCode}`;
+        const url = `{{ route('countryprofile', ['countryCode' => ':countryCode']) }}`.replace(':countryCode', selectedCountryCode);
+        window.location.href = url;
     });
 </script>
+
 
 
 @endsection

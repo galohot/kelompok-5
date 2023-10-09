@@ -121,7 +121,24 @@ class CountryProfileController extends Controller
             $worldBankMacroData[$series] = $value;
         }
 
-        $worldBankTrade = WorldBankTrade::where('CountryCode', $countryCode)->get();
+        $WorldBankTradeAll = WorldBankTrade::where('CountryCode', $countryCode)->get();
+        $worldBankTradeData = [];
+    
+        foreach ($WorldBankTradeAll as $tradeData) {
+            $series = $tradeData->Series;
+            $value = null;
+    
+            for ($year = 2022; $year >= 2018; $year--) {
+                $column = (string)$year;
+                if (!empty($tradeData->$column)) {
+                    $value = $tradeData->$column;
+                    break;
+                }
+            }
+    
+            $worldBankTradeData[$series] = $value;
+        }
+
         return view('countryprofile', compact(
             'countryName', 
             'gdpData', 
@@ -152,7 +169,8 @@ class CountryProfileController extends Controller
             'publicEduExpenditure',
             'latestGdpPerCapitaValue',
             'incomeCategory',
-            'worldBankMacroData'
+            'worldBankMacroData',
+            'worldBankTradeData'
         ));
         
     }

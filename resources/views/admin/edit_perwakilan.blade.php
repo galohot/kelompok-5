@@ -12,7 +12,7 @@
                     </div>
                     <div class="form-group my-4">
                         <label for="Region">Region:</label>
-                        <input type="text" name="Region" value="{{ $data->Region }}" class="form-control">
+                        <input type="text" name="Region" value="{{ $data->Region }}" class="form-control" readonly>
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>

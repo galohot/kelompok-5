@@ -19,5 +19,6 @@
       <div class="dropdown-divider"></div>
       <a href="./settings.html" class="dropdown-item">Settings</a>
       <a href="{{ route('admin.logout') }}" class="dropdown-item">Logout</a>
+
     </div>
   </div>

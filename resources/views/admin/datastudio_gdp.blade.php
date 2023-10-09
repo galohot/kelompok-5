@@ -1,5 +1,5 @@
-@extends('admin.admin_dashboard')
-@section('admin')
+@extends('dashboard')
+@section('content')
 
 <div class="container">
     <div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">
