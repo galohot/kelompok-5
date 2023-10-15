@@ -7,6 +7,35 @@
   <div class="container-xl">
     <div class="row row-deck row-cards">
 
+      <div class="modal modal-blur fade" id="modal-scrollable" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Selamat datang pada Project Taskapok Kami</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <h1>RANCANGAN VISUALISASI DATA PENDUDUK DAN EKONOMI SEBAGAI SARANA DUKUNGAN STRATEGI KEBIJAKAN KEMENTERIAN LUAR NEGERI</h1>
+              <ul>
+                <li>
+                  M. Dedi Irawan
+                </li>
+                <li>
+                  Alfindio Muhammad Abdallah
+                </li>
+                <li>
+                  Nuria Kusuma Ilmawati
+                </li>
+              </ul>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="col-12">
         <div class="row row-cards">
           <div class="col-sm-6 col-lg-4">
@@ -157,6 +186,21 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Check if the cookie 'visited' is set
+    if (document.cookie.indexOf('visited=') === -1) {
+      // If not set, show the modal
+      $('#modal-scrollable').modal('show');
+
+      // Set the cookie to expire in 30 minutes
+      var now = new Date();
+      now.setTime(now.getTime() + 15 * 60 * 1000); 
+      document.cookie = 'visited=true; expires=' + now.toUTCString() + '; path=/';
+    }
+  });
+</script>
 
 
 <script>
