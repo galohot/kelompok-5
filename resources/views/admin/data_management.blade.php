@@ -1,6 +1,5 @@
-@extends('admin.admin_dashboard')
-
-@section('admin')
+@extends('dashboard')
+@section('content')
 <div class="container">
     <!-- Country Dropdown -->
 {{-- Add this at the top of your file --}}

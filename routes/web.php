@@ -29,9 +29,9 @@ require __DIR__.'/auth.php';
 Route::middleware('auth')->group(function () {
     Route::get('/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -41,13 +41,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/geochart', [AdminController::class, 'GeoChart'])->name('geochart');
     Route::get('/countryprofile/{countryCode}', [CountryProfileController::class, 'show'])->name('countryprofile');
     Route::get('/dashboard', [IndexDataController::class, 'getIndex'])->name('index.dashboard');
-    
+    Route::post('/profile/store', [AdminController::class, 'AdminProfileStore'])->name('admin.profile.store');
 
     Route::middleware('role:admin')->group(function () {
         Route::prefix('admin')->group(function () {
             Route::get('/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
-            Route::get('/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
-            Route::post('/profile/store', [AdminController::class, 'AdminProfileStore'])->name('admin.profile.store');
+            // Route::get('/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
+
             Route::get('/geochart', [AdminController::class, 'GeoChart'])->name('admin.geochart');
             Route::get('/countryprofile/{countryCode}', [CountryProfileController::class, 'show'])->name('admin.countryprofile');
             Route::get('/datastudio_gdp', [AdminController::class, 'DataStudioGDP'])->name('admin.datastudiogdp');

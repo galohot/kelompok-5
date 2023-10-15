@@ -7,7 +7,6 @@
       </div>
     </a>
     <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-      <a href="#" class="dropdown-item">Status</a>
       @if (Auth::user()->role === 'admin' || Auth::user()->role === 'agent')
       <a href="{{ route('admin.datamanagement', ['countryCode' => 'AF']) }}" class="dropdown-item">Data Management</a>
       @endif
@@ -15,9 +14,7 @@
       <a href="{{ route('admin.usermanagement.index') }}" class="dropdown-item">User Management</a>
       @endif
       <a href="{{ route('admin.profile') }}" class="dropdown-item">Profile</a>
-      <a href="#" class="dropdown-item">Feedback</a>
       <div class="dropdown-divider"></div>
-      <a href="./settings.html" class="dropdown-item">Settings</a>
       <a href="{{ route('admin.logout') }}" class="dropdown-item">Logout</a>
 
     </div>

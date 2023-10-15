@@ -5,7 +5,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="navbar-nav flex-row order-md-last">
-      @include('admin.body.nav-item')
+      @include('body.nav-item')
     </div>
     <div class="collapse navbar-collapse" id="navbar-menu"></div>
   </div>

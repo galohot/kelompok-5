@@ -1,5 +1,5 @@
-@extends('admin.admin_dashboard')
-@section('admin')
+@extends('dashboard')
+@section('content')
 
 <div class="container mt-4">
     <h2>User Management</h2>

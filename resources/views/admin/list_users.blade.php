@@ -1,5 +1,5 @@
-@extends('admin.admin_dashboard')
-@section('admin')
+@extends('dashboard')
+@section('content')
 @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
