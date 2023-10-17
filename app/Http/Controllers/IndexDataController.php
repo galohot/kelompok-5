@@ -33,18 +33,16 @@ class IndexDataController extends Controller
                                     ->select('Series', '2018', '2019', '2020', '2021', '2022')
                                     ->get();
     
-        $formattedData = [];
-        foreach ($tradeData as $data) {
-            $formattedData[] = [
+        $formattedData = $tradeData->map(function($data) {
+            return [
                 'name' => $data->Series,
                 'data' => [$data->{'2018'}, $data->{'2019'}, $data->{'2020'}, $data->{'2021'}, $data->{'2022'}]
             ];
-        }
+        })->toArray();
     
-        return [
-            'series' => $formattedData,
-            'labels' => ['2018', '2019', '2020', '2021', '2022']
-        ];
+        $labels = ['2018', '2019', '2020', '2021', '2022'];
+    
+        return compact('formattedData', 'labels');
     }
 
     protected function getGeoChartData()
@@ -58,22 +56,42 @@ class IndexDataController extends Controller
         return $geoChartData->pluck('Value', 'CountryCode')->toArray();
     }
 
+    // Add this function to your controller
+    protected function getWorldBankWorldData() {
+        $worldBankAll = WorldBankWorld::get();
+
+        $worldBankMacroData = [];
+
+        foreach ($worldBankAll as $data) {
+            $series = $data->Series;
+            $value = null;
+
+            for ($year = 2022; $year >= 2018; $year--) {
+                $column = (string)$year;
+                if (!empty($data->$column)) {
+                    $value = $data->$column;
+                    break;
+                }
+            }
+
+            $worldBankMacroData[$series] = $value;
+        }
+
+        return $worldBankMacroData;
+    }
+
+
     public function getIndexDashboardData()
     {
         $geoChartData = $this->getGeoChartData();
         $perwakilanData = PerwakilanMaster::all();
-        $uniqueRegionsCount = PerwakilanMaster::distinct('Country')->count();
-        $worldData = WorldBankWorld::all();
-        
-        
-
-
+        $uniqueRegionsCount = $perwakilanData->unique('Country')->count();
+        $worldData = $this->getWorldBankWorldData();
         $tradeChartData = $this->getTradeChartData();
-
-        
-
-        return array_merge(compact('geoChartData', 'perwakilanData', 'uniqueRegionsCount', 'worldData'), $tradeChartData);
+    
+        return compact('geoChartData', 'perwakilanData', 'uniqueRegionsCount', 'worldData', 'tradeChartData');
     }
+    
     
     
     public function getIndex()

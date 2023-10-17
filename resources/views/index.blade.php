@@ -116,20 +116,10 @@
           </div>
         </div>
       </div>
-      <div class="col-12">
-        <div class="card card-md">
-          <div class="card-stamp card-stamp-lg">
-            <div class="card-stamp-icon bg-primary">
-              <!-- Download SVG icon from http://tabler-icons.io/i/ghost -->
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 11a7 7 0 0 1 14 0v7a1.78 1.78 0 0 1 -3.1 1.4a1.65 1.65 0 0 0 -2.6 0a1.65 1.65 0 0 1 -2.6 0a1.65 1.65 0 0 0 -2.6 0a1.78 1.78 0 0 1 -3.1 -1.4v-7" /><path d="M10 10l.01 0" /><path d="M14 10l.01 0" /><path d="M10 14a3.5 3.5 0 0 0 4 0" /></svg>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="col-md-12 col-lg-12">
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Most Visited Pages</h3>
+            <h3 class="card-title">Our Offices</h3>
           </div>
           <div class="card-table table-responsive">
             <table id="yourFirstTableID" class="table table-vcenter">
@@ -151,6 +141,27 @@
           </div>
         </div>
       </div>
+
+      <div class="col-12">
+        <div class="card my-4">
+            <div class="card-header">
+                <h3 class="m-auto card-title">World Bank Global Data</h3>
+            </div>
+            <div class="card-body">
+                <div class="datagrid">
+                    @foreach ($worldData as $series => $value)
+                        @if ($value !== null)
+                            <div class="datagrid-item">
+                                <div class="datagrid-title">{{ $series }}</div>
+                                <div class="datagrid-content">{{ $value }}</div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+        </div>
+      </div>
+
         <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
           <div class="row">
               <div class="col-sm-12">
@@ -268,8 +279,8 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-      const tradeChartDataSeries = @json($series);  // Fetching series data from the controller.
-      const tradeChartLabels = @json($labels);     // Fetching labels from the controller.
+  const tradeChartDataSeries = @json($tradeChartData['formattedData']);
+  const tradeChartLabels = @json($tradeChartData['labels']);
   
       window.ApexCharts && (new ApexCharts(document.getElementById('index-trade-chart'), {
           chart: {
@@ -337,7 +348,7 @@
           },
       })).render();
   });
-  </script>
+</script>
   
   
 
